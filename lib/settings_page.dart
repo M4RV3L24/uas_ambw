@@ -7,15 +7,8 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Menggunakan Consumer agar widget ini rebuild saat tema berubah
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        // Cek apakah mode saat ini adalah dark
-       // final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
-// atau:
-//// Cek brightness yang sedang aktif di konteks saat ini
-      final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
         return Scaffold(
           appBar: AppBar(
             title: const Text('Pengaturan Tema'),
@@ -23,16 +16,34 @@ class SettingsPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Card(
-              child: ListTile(
-                leading: Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode),
-                title: const Text('Mode Gelap'),
-                trailing: Switch(
-                  value: isDarkMode,
-                  onChanged: (value) {
-                    // Panggil fungsi toggle dari provider
-                    themeProvider.toggleTheme(value);
-                  },
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<ThemeMode>(
+                    title: const Text('Mengikuti Sistem'),
+                    value: ThemeMode.system,
+                    groupValue: themeProvider.themeMode,
+                    onChanged: (value) {
+                      themeProvider.setThemeMode(value!);
+                    },
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: const Text('Mode Terang'),
+                    value: ThemeMode.light,
+                    groupValue: themeProvider.themeMode,
+                    onChanged: (value) {
+                      themeProvider.setThemeMode(value!);
+                    },
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: const Text('Mode Gelap'),
+                    value: ThemeMode.dark,
+                    groupValue: themeProvider.themeMode,
+                    onChanged: (value) {
+                      themeProvider.setThemeMode(value!);
+                    },
+                  ),
+                ],
               ),
             ),
           ),

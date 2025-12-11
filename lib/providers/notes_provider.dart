@@ -42,6 +42,17 @@ class NotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Edit note
+  Future<void> editNote(int index, String title, String content) async {
+    _notes[index] = Note(
+      title: title,
+      content: content,
+      createdAt: _notes[index].createdAt, // Keep original creation date
+    );
+    await saveNotes();
+    notifyListeners();
+  }
+
   // Delete note
   Future<void> deleteNote(int index) async {
     _notes.removeAt(index);

@@ -9,9 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.1 # Sesuaikan versi
-  shared_preferences: ^2.2.2 # Sesuaikan versi
-  google_fonts: ^6.1.0 # Sesuaikan versi
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  google_fonts: ^6.1.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
