@@ -2,26 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../providers/notes_provider.dart';
+import '../theme_provider.dart';
 
 class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Catatan Saya'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Catatan Saya'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Consumer<NotesProvider>(
-        builder: (context, notesProvider, child) {
+          body: Consumer<NotesProvider>(
+            builder: (context, notesProvider, child) {
           if (notesProvider.notes.isEmpty) {
             return const Center(
               child: Text(
@@ -67,7 +70,9 @@ class NotesScreen extends StatelessWidget {
                         formattedDate,
                         style: TextStyle(
                           fontSize: 12,
-                          color: Theme.of(context).textTheme.bodySmall?.color,
+                          color: themeProvider.themeMode == ThemeMode.dark 
+                              ? Colors.grey[400] 
+                              : Colors.grey[600],
                         ),
                       ),
                     ],
@@ -81,15 +86,17 @@ class NotesScreen extends StatelessWidget {
                 ),
               );
             },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add-note');
-        },
-        child: const Icon(Icons.add),
-      ),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/add-note');
+          },
+          child: const Icon(Icons.add),
+        ),
+      );
+      },
     );
   }
 
